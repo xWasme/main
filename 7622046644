@@ -1,7 +1,8 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
-local Window = OrionLib:MakeWindow({Name = "CupWare - Monster Ghoul", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = "CupWare - Monster Ghoul", HidePremium = false, SaveConfig = true, ConfigFolder = "CupWare Hub"})
 
+game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
 
 
 local mTab = Window:MakeTab({
@@ -9,7 +10,11 @@ local mTab = Window:MakeTab({
 	Icon = "rbxassetid://9567394854",
 	PremiumOnly = false
 })
-
+local aTab = Window:MakeTab({
+	Name = "Auto Farm",
+	Icon = "rbxassetid://9912879199",
+	PremiumOnly = false
+})
 local pTab = Window:MakeTab({
 	Name = "Local Player",
 	Icon = "rbxassetid://7506753605",
@@ -24,8 +29,20 @@ OrionLib:MakeNotification({
 	Time = 5
 })
 
+--kick bypass
+local meta = getrawmetatable(game)
+setreadonly(meta, false)
+local oldmeta = meta.__namecall
+meta.__namecall = newcclosure(function(Self, ...)
+    local method = getnamecallmethod()
+    if method == 'Kick' then
+        wait(9e9)
+        return nil
+    end
+    return oldmeta(Self, ...)
+end)
+setreadonly(meta, true)
 --auto equip
-
 mTab:AddToggle({
 	Name = "Auto Equip",
 	Default = false,
@@ -60,7 +77,29 @@ mTab:AddToggle({
         end
 	end    
 })
-
+--auto hit
+mTab:AddToggle({
+	Name = "Auto Hit",
+	Default = false,
+	Callback = function(hit)
+		if hit then
+            _G.hit = true  
+            while _G.hit do
+             local button = game.Players.LocalPlayer.PlayerGui.MobileClick.Click
+        wait(0.025)
+         local events = {"MouseButton1Click", "MouseButton1Down", "Activated"}
+        for i,v in pairs(events) do
+        for i,v in pairs(getconnections(button[v])) do
+            v:Fire()
+        end
+        end
+            end
+            else
+                _G.hit = false
+        end
+	end    
+})
+--auto eat
 mTab:AddToggle({
 	Name = "Auto Collect Bodies",
 	Default = false,
@@ -68,7 +107,7 @@ mTab:AddToggle({
                 if eat then
                     _G.eat = true
                     while _G.eat == true do
-                        wait(0.2)
+                        wait()
                     for i,v in pairs(workspace:GetDescendants()) do
                         if v:IsA("ClickDetector") then
                         fireclickdetector(v)
@@ -79,174 +118,6 @@ mTab:AddToggle({
                         _G.eat = false
                 end
                    
-	end    
-})
-
---autofarm
-
-mTab:AddToggle({
-	Name = "Autofarm",
-	Default = false,
-	Callback = function(farm)
-		if farm then
-            --anti afk
-        local vu = game:GetService("VirtualUser")
-        game:GetService("Players").LocalPlayer.Idled:connect(function()
-        vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-        wait(1)
-        vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-        end)
-                
-        
-        --starting mid-high
-        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
-        wait(0.1)
-        for k, v in pairs(workspace.MidSpawns:GetChildren()) do 
-        if v.Name == "CF16" then
-           v.Name = "CF0" .. k
-        end
-        end
-        for k, v in pairs(workspace.MidSpawns:GetChildren()) do 
-        if v.Name == "CF11" then
-           v.Name = "CF0" .. k
-        end
-        end
-        for k, v in pairs(workspace.MidSpawns:GetChildren()) do 
-        if v.Name == "CF12" then
-           v.Name = "CF0" .. k
-        end
-        end
-        for k, v in pairs(workspace.HighSpawns:GetChildren()) do 
-        if v.Name == "CF13" then
-           v.Name = "CF1" .. k
-        end
-        end
-        
-        
-        
-        --tp to spot
-        local New_CFrame = CFrame.new(601.627, 108.149, 989.696)
-        
-        local ts = game:GetService("TweenService")
-        local uis = game:GetService("UserInputService")
-        local char = game.Players.LocalPlayer.Character
-        
-        local part = char.HumanoidRootPart
-        local ti = TweenInfo.new(0.05, Enum.EasingStyle.Linear)
-        local tp = {CFrame = New_CFrame}
-        ts:Create(part, ti, tp):Play()
-        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
-        wait()
-        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
-        wait(0.3)
-        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
-        
-        
-        
-        --bring mob
-        
-        _G.bringmob = true
-        
-        ---change parent mid 1
-        game:GetService"RunService".RenderStepped:Connect(function()
-        game.Workspace.MidSpawns.CF01["Mid Level Aogiri"].Parent = game.Workspace
-        game.Workspace.MidSpawns.CF02["Mid Level Aogiri"].Parent = game.Workspace
-        game.Workspace.MidSpawns.CF03["Mid Level Aogiri"].Parent = game.Workspace
-        end)
-        ---change parent mid 2
-        game:GetService"RunService".RenderStepped:Connect(function()
-        game.Workspace.MidSpawns.CF04["Mid Level Aogiri"].Parent = game.Workspace
-        game.Workspace.MidSpawns.CF05["Mid Level Aogiri"].Parent = game.Workspace
-        game.Workspace.MidSpawns.CF06["Mid Level Aogiri"].Parent = game.Workspace
-        game.Workspace.MidSpawns.CF07["Mid Level Aogiri"].Parent = game.Workspace
-        end)
-        ---change parent mid 3
-        game:GetService"RunService".RenderStepped:Connect(function()
-        game.Workspace.MidSpawns.CF08["Mid Level Aogiri"].Parent = game.Workspace
-        game.Workspace.MidSpawns.CF09["Mid Level Aogiri"].Parent = game.Workspace
-        game.Workspace.MidSpawns.CF010["Mid Level Aogiri"].Parent = game.Workspace
-        end)
-        ---change Parent High
-        game:GetService"RunService".RenderStepped:Connect(function()
-        game.Workspace.HighSpawns.CF11["High Level Aogiri"].Parent = game.Workspace
-        game.Workspace.HighSpawns.CF13["High Level Aogiri"].Parent = game.Workspace
-        game.Workspace.HighSpawns.CF14["High Level Aogiri"].Parent = game.Workspace
-        game.Workspace.HighSpawns.CF15["High Level Aogiri"].Parent = game.Workspace
-        end)
-        ---change Name
-        game:GetService"RunService".RenderStepped:Connect(function()
-        game.Workspace["High Level Aogiri"].Name = "Mid Level Aogiri"
-        game.Workspace["High Level Aogiri"].Name = "Mid Level Aogiri"
-        game.Workspace["High Level Aogiri"].Name = "Mid Level Aogiri"
-        game.Workspace["High Level Aogiri"].Name = "Mid Level Aogiri"
-        end)
-
-        
-        
-        while _G.bringmob do wait()
-        
-           local button = game.Players.LocalPlayer.PlayerGui.MobileClick.Click
-        
-         local events = {"MouseButton1Click", "MouseButton1Down", "Activated"}
-        for i,v in pairs(events) do
-        for i,v in pairs(getconnections(button[v])) do
-            v:Fire()
-        end
-        end
-        pcall(function()
-        for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
-        for x,y in pairs(game:GetService("Workspace"):GetChildren()) do
-        if v.Name == "Mid Level Aogiri" then
-        if y.Name == "Mid Level Aogiri" then
-        v.HumanoidRootPart.CFrame = y.HumanoidRootPart.CFrame
-        v.HumanoidRootPart.Size = Vector3.new(60,60,60)
-        y.HumanoidRootPart.Size = Vector3.new(60,60,60)
-        v.HumanoidRootPart.CFrame = CFrame.new(605.713623, 108.148788, 995.268677, -0.828714371, -5.12342311e-08, -0.559671819, -2.94714262e-08, 1, -4.79045674e-08, 0.559671819, -2.32048762e-08, -0.828714371)
-        y.HumanoidRootPart.CFrame = CFrame.new(605.713623, 108.148788, 995.268677, -0.828714371, -5.12342311e-08, -0.559671819, -2.94714262e-08, 1, -4.79045674e-08, 0.559671819, -2.32048762e-08, -0.828714371)
-        v.HumanoidRootPart.Transparency = 1
-        v.HumanoidRootPart.CanCollide = false
-        y.HumanoidRootPart.CanCollide = false
-        v.Humanoid.WalkSpeed = 0
-        y.Humanoid.WalkSpeed = 0
-        v.Humanoid.JumpPower = 0
-        y.Humanoid.JumpPower = 0
-        v.HumanoidRootPart.Anchored = false
-        y.HumanoidRootPart.Anchored = false
-        
-        if sethiddenproperty then
-         sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-        
-        end
-        end
-        end
-        end
-        end
-        end)
-        end
-        
-        --lopp to spot
-        
-        local New_CFrame = CFrame.new(601.627, 108.149, 989.696)
-        wait(600)
-        local ts = game:GetService("TweenService")
-        local uis = game:GetService("UserInputService")
-        local char = game.Players.LocalPlayer.Character
-        
-        local part = char.HumanoidRootPart
-        local ti = TweenInfo.new(0.05, Enum.EasingStyle.Linear)
-        local tp = {CFrame = New_CFrame}
-        ts:Create(part, ti, tp):Play()
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 0
-        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
-        wait()
-        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
-        wait(0.03)
-        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
-                else
-                _G.bringmob = false
-        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
-            end
 	end    
 })
 
@@ -281,6 +152,295 @@ mTab:AddButton({
           end  
 })
 
+
+--autofarm
+aTab:AddToggle({
+	Name = "Auto Farm",
+	Default = false,
+	Callback = function(autofarms)
+                if autofarms then
+                    --change Folder
+                            for k, v in pairs(workspace.MidSpawns:GetChildren()) do 
+                            if v.Name == "CF16" then
+                               v.Name = "CF0" .. k
+                            end
+                            end
+                            for k, v in pairs(workspace.MidSpawns:GetChildren()) do 
+                            if v.Name == "CF11" then
+                               v.Name = "CF0" .. k
+                            end
+                            end
+                            for k, v in pairs(workspace.MidSpawns:GetChildren()) do 
+                            if v.Name == "CF12" then
+                               v.Name = "CF0" .. k
+                            end
+                            end
+                            for k, v in pairs(workspace.MidSpawns:GetChildren()) do 
+                            if v.Name == "CF15" then
+                               v.Name = "CF0" .. k
+                            end
+                            end
+                            for k, v in pairs(workspace.HighSpawns:GetChildren()) do 
+                            if v.Name == "CF13" then
+                                v.Name = "CF1" .. k
+                            end
+                            end
+                            ---change parent low
+        game:GetService"RunService".RenderStepped:Connect(function()
+            wait()
+            game.Workspace.LowLevelSpawns.CF11["Low Level Aogiri"].Parent = game.Workspace
+            wait()
+            game.Workspace.LowLevelSpawns.CF12["Low Level Aogiri"].Parent = game.Workspace
+            wait()
+            game.Workspace.LowLevelSpawns.CF9["Low Level Aogiri"].Parent = game.Workspace
+            wait()
+            game.Workspace.LowLevelSpawns.CF14["Low Level Aogiri"].Parent = game.Workspace
+        end)
+                ---change parent mid
+        game:GetService"RunService".RenderStepped:Connect(function()
+            wait()
+            game.Workspace.MidSpawns.CF01["Mid Level Aogiri"].Parent = game.Workspace
+            wait()
+            game.Workspace.MidSpawns.CF02["Mid Level Aogiri"].Parent = game.Workspace
+            wait()
+            game.Workspace.MidSpawns.CF03["Mid Level Aogiri"].Parent = game.Workspace
+            wait()
+            game.Workspace.MidSpawns.CF04["Mid Level Aogiri"].Parent = game.Workspace
+        end)
+                ---change parent mid2
+        game:GetService"RunService".RenderStepped:Connect(function()
+            wait()
+            game.Workspace.MidSpawns.CF05["Mid Level Aogiri"].Parent = game.Workspace
+            wait()
+            game.Workspace.MidSpawns.CF06["Mid Level Aogiri"].Parent = game.Workspace
+            wait()
+            game.Workspace.MidSpawns.CF07["Mid Level Aogiri"].Parent = game.Workspace
+        end)
+                ---change parent mid3
+        game:GetService"RunService".RenderStepped:Connect(function()
+            wait()
+            game.Workspace.MidSpawns.CF09["Mid Level Aogiri"].Parent = game.Workspace
+            wait()
+            game.Workspace.MidSpawns.CF010["Mid Level Aogiri"].Parent = game.Workspace
+            wait()
+            game.Workspace.MidSpawns.CF08["Mid Level Aogiri"].Parent = game.Workspace
+        end)
+                ---change parent high
+        game:GetService"RunService".RenderStepped:Connect(function()
+            wait()
+            game.Workspace.HighSpawns.CF11["High Level Aogiri"].Parent = game.Workspace
+            wait()
+            game.Workspace.HighSpawns.CF15["High Level Aogiri"].Parent = game.Workspace
+            wait()
+            game.Workspace.HighSpawns.CF13["High Level Aogiri"].Parent = game.Workspace
+            wait()
+            game.Workspace.HighSpawns.CF14["High Level Aogiri"].Parent = game.Workspace
+        end)
+                    --unanchor Character
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+                    --anti afk
+                        local vu = game:GetService("VirtualUser")
+                        game:GetService("Players").LocalPlayer.Idled:connect(function()
+                         vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+                        wait(1)
+                        vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+                        end)
+                    --loop tp
+                    _G.looptp = true
+                    while _G.looptp do wait(2.5)
+                    local New_CFrame = CFrame.new(607.832, 108.28, 1001.95)
+                    local Client = game:GetService("Players").LocalPlayer;
+
+                        local ts = game:GetService("TweenService")
+                        local uis = game:GetService("UserInputService")
+                        local char = game.Players.LocalPlayer.Character
+        
+                        local part = char.HumanoidRootPart
+                        local ti = TweenInfo.new(0.001, Enum.EasingStyle.Linear)
+                        local tp = {CFrame = New_CFrame}
+                        ts:Create(part, ti, tp):Play()
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+                        wait(0)
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+                        wait(0.001001)
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+                            wait()
+                    end
+
+            else
+                        _G.looptp = false
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+                        wait(0.5)
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+                        wait(0.5)
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+                        wait(0.5)
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+                        wait(0.5)
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+                        wait(0.5)
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+                end
+                   
+	end    
+})
+--Low
+aTab:AddToggle({
+	Name = "Low Level Aogiri (Buggy)",
+	Default = false,
+	Callback = function(lowss)
+		if lowss then
+    
+        _G.lowsss = true
+
+                            --bring mob
+        _G.lowsss = true            
+        while _G.lowsss do wait()
+        pcall(function()
+        for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
+        for x,y in pairs(game:GetService("Workspace"):GetChildren()) do
+        if v.Name == "Low Level Aogiri" then
+        if y.Name == "Low Level Aogiri" then
+        v.HumanoidRootPart.CFrame = y.HumanoidRootPart.CFrame
+        v.HumanoidRootPart.Size = Vector3.new(60,60,60)
+        y.HumanoidRootPart.Size = Vector3.new(60,60,60)
+        v.HumanoidRootPart.CFrame = CFrame.new(604.536, 110.149, 997.718)
+        y.HumanoidRootPart.CFrame = CFrame.new(604.536, 110.149, 997.718)
+        v.HumanoidRootPart.Transparency = 1
+        v.HumanoidRootPart.CanCollide = false
+        y.HumanoidRootPart.CanCollide = false
+        v.Humanoid.WalkSpeed = 0
+        y.Humanoid.WalkSpeed = 0
+        v.Humanoid.JumpPower = 0
+        y.Humanoid.JumpPower = 0
+        v.HumanoidRootPart.Anchored = false
+        y.HumanoidRootPart.Anchored = false
+        
+        if sethiddenproperty then
+         sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+        
+        end
+        
+        end
+        end
+        end
+        end
+        end)
+        end
+ 
+        
+                else
+                _G.lowsss = false
+              
+            
+		end  
+end
+})
+--mid
+aTab:AddToggle({
+	Name = "Mid Level Aogiri",
+	Default = false,
+	Callback = function(midss)
+		if midss then
+    
+        _G.midsss = true
+        
+                            --bring mob
+        while _G.midsss do wait()
+        pcall(function()
+        for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
+        for x,y in pairs(game:GetService("Workspace"):GetChildren()) do
+        if v.Name == "Mid Level Aogiri" then
+        if y.Name == "Mid Level Aogiri" then
+        v.HumanoidRootPart.CFrame = y.HumanoidRootPart.CFrame
+        v.HumanoidRootPart.Size = Vector3.new(60,60,60)
+        y.HumanoidRootPart.Size = Vector3.new(60,60,60)
+        v.HumanoidRootPart.CFrame = CFrame.new(604.536, 110.149, 997.718)
+        y.HumanoidRootPart.CFrame = CFrame.new(604.536, 110.149, 997.718)
+        v.HumanoidRootPart.Transparency = 1
+        v.HumanoidRootPart.CanCollide = false
+        y.HumanoidRootPart.CanCollide = false
+        v.Humanoid.WalkSpeed = 0
+        y.Humanoid.WalkSpeed = 0
+        v.Humanoid.JumpPower = 0
+        y.Humanoid.JumpPower = 0
+        v.HumanoidRootPart.Anchored = false
+        y.HumanoidRootPart.Anchored = false
+        
+        if sethiddenproperty then
+         sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+        
+        end
+        
+        end
+        end
+        end
+        end
+        end)
+        end
+ 
+        
+                else
+                _G.midsss = false
+              
+            
+		end  
+end
+})
+--high
+aTab:AddToggle({
+	Name = "High Level Aogiri",
+	Default = false,
+	Callback = function(highss)
+		if highss then
+    
+        _G.highsss = true
+        
+                            --bring mob
+        while _G.highsss do wait()
+        pcall(function()
+        for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
+        for x,y in pairs(game:GetService("Workspace"):GetChildren()) do
+        if v.Name == "High Level Aogiri" then
+        if y.Name == "High Level Aogiri" then
+        v.HumanoidRootPart.CFrame = y.HumanoidRootPart.CFrame
+        v.HumanoidRootPart.Size = Vector3.new(60,60,60)
+        y.HumanoidRootPart.Size = Vector3.new(60,60,60)
+        v.HumanoidRootPart.CFrame = CFrame.new(604.536, 110.149, 997.718)
+        y.HumanoidRootPart.CFrame = CFrame.new(604.536, 110.149, 997.718)
+        v.HumanoidRootPart.Transparency = 1
+        v.HumanoidRootPart.CanCollide = false
+        y.HumanoidRootPart.CanCollide = false
+        v.Humanoid.WalkSpeed = 0
+        y.Humanoid.WalkSpeed = 0
+        v.Humanoid.JumpPower = 0
+        y.Humanoid.JumpPower = 0
+        v.HumanoidRootPart.Anchored = false
+        y.HumanoidRootPart.Anchored = false
+        
+        if sethiddenproperty then
+         sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+        
+        end
+        
+        end
+        end
+        end
+        end
+        end)
+        end
+ 
+        
+                else
+                _G.highsss = false
+              
+            
+		end  
+end
+})
+
+
+
 --hide name
 
 pTab:AddButton({
@@ -299,7 +459,7 @@ pTab:AddButton({
 pTab:AddSlider({
 	Name = "Speed",
 	Min = 0,
-	Max = 100,
+	Max = 500,
 	Default = (speed),
 	Color = Color3.fromRGB(255, 200, 0),
 	Increment = 1,
@@ -312,7 +472,7 @@ pTab:AddSlider({
 pTab:AddSlider({
 	Name = "Jump Power",
 	Min = 0,
-	Max = 200,
+	Max = 1000,
 	Default = (jump),
 	Color = Color3.fromRGB(255, 100, 0),
 	Increment = 1,
