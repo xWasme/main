@@ -269,7 +269,7 @@ aTab:AddToggle({
                     --loop tp
                     _G.looptp = true
                     while _G.looptp do wait(2.5)
-                    local New_CFrame = CFrame.new(607.832, 108.28, 1001.95)
+                    local New_CFrame = CFrame.new(602.998, 108.147, 1005.86)
                     local Client = game:GetService("Players").LocalPlayer;
 
                         local ts = game:GetService("TweenService")
@@ -283,7 +283,7 @@ aTab:AddToggle({
                         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
                         wait(0)
                         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
-                        wait(0.001001)
+                        wait(0.001)
                         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
                             wait()
                     end
