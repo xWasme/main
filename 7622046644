@@ -12,7 +12,7 @@ local mTab = Window:MakeTab({
 })
 local aTab = Window:MakeTab({
 	Name = "Auto Farm",
-	Icon = "rbxassetid://9912879199",
+	Icon = "rbxassetid://9913886900",
 	PremiumOnly = false
 })
 local pTab = Window:MakeTab({
