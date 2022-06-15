@@ -29,7 +29,7 @@ OrionLib:MakeNotification({
 	Time = 5
 })
 
---kick bypass
+
 local meta = getrawmetatable(game)
 setreadonly(meta, false)
 local oldmeta = meta.__namecall
@@ -120,7 +120,28 @@ mTab:AddToggle({
                    
 	end    
 })
+--auto upgrade kagune
+mTab:AddToggle({
+	Name = "Auto Upgrade Kagune",
+	Default = false,
+	Callback = function(kagune)
+		if kagune then
+            _G.kagunes = true  
+            while _G.kagunes do
+                wait(0.25)
+local args = {
+    [1] = "DontSpyStupid",
+    [2] = "WeaponAddButton",
+    [3] = 1
+}
 
+game:GetService("Players").LocalPlayer.StorageFile.statusfunction:InvokeServer(unpack(args))
+end
+            else
+                _G.kagunes = false
+        end
+	end    
+})
 mTab:AddButton({
 	Name = "Use All Codes",
 	Callback = function()
