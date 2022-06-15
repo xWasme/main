@@ -275,31 +275,62 @@ aTab:AddToggle({
                         local ts = game:GetService("TweenService")
                         local uis = game:GetService("UserInputService")
                         local char = game.Players.LocalPlayer.Character
-        
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 0
                         local part = char.HumanoidRootPart
                         local ti = TweenInfo.new(0.001, Enum.EasingStyle.Linear)
                         local tp = {CFrame = New_CFrame}
                         ts:Create(part, ti, tp):Play()
+                        
                         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
                         wait(0)
+                        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 0
                         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
                         wait(0.001)
                         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
                             wait()
+                            --if died and respawn
+game.Players.LocalPlayer.CharacterAdded:connect(function()
+    wait(1.5)
+local New_CFrame = CFrame.new(602.998, 108.147, 1005.86)
+                    local Client = game:GetService("Players").LocalPlayer;
+
+                        local ts = game:GetService("TweenService")
+                        local uis = game:GetService("UserInputService")
+                        local char = game.Players.LocalPlayer.Character
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 0
+                        local part = char.HumanoidRootPart
+                        local ti = TweenInfo.new(0.001, Enum.EasingStyle.Linear)
+                        local tp = {CFrame = New_CFrame}
+                        ts:Create(part, ti, tp):Play()
+                        
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+                        wait(0)
+                        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 0
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+                        wait(0.001)
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+                            wait()
+end)
                     end
 
             else
                         _G.looptp = false
+                        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 20
                         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
                         wait(0.5)
+                        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 20
                         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
                         wait(0.5)
+                        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 20
                         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
                         wait(0.5)
+                        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 20
                         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
                         wait(0.5)
+                        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 20
                         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
                         wait(0.5)
+                        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 20
                         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
                 end
                    
