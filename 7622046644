@@ -586,7 +586,17 @@ tTab:AddDropdown({
 	Default = "player",
 	Options = Optionsd,
 	Callback = function(Value)
-		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players[Value].Character.HumanoidRootPart.CFrame
+		local New_CFrame = game.Players[Value].Character.HumanoidRootPart.CFrame
+                    local Client = game:GetService("Players").LocalPlayer;
+
+                        local ts = game:GetService("TweenService")
+                        local uis = game:GetService("UserInputService")
+                        local char = game.Players.LocalPlayer.Character
+                        local part = char.HumanoidRootPart
+                        local ti = TweenInfo.new(0.125, Enum.EasingStyle.Linear)
+                        local tp = {CFrame = New_CFrame}
+                        ts:Create(part, ti, tp):Play()
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
 	end    
 })
 --Alway day
