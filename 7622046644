@@ -291,6 +291,7 @@ aTab:AddToggle({
                             --if died and respawn
 game.Players.LocalPlayer.CharacterAdded:connect(function()
     wait(1.5)
+    if _G.looptp == true then
 local New_CFrame = CFrame.new(602.998, 108.147, 1005.86)
                     local Client = game:GetService("Players").LocalPlayer;
 
@@ -310,6 +311,7 @@ local New_CFrame = CFrame.new(602.998, 108.147, 1005.86)
                         wait(0.001)
                         game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
                             wait()
+                            end
 end)
                     end
 
