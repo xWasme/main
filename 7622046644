@@ -20,6 +20,11 @@ local pTab = Window:MakeTab({
 	Icon = "rbxassetid://7506753605",
 	PremiumOnly = false
 })
+local tTab = Window:MakeTab({
+	Name = "MISC",
+	Icon = "rbxassetid://9915563175",
+	PremiumOnly = false
+})
 
 
 OrionLib:MakeNotification({
@@ -509,7 +514,41 @@ pTab:AddButton({
           end
   	end    
 })
+--inf jump
+pTab:AddToggle({
+	Name = "Inf. Jump",
+	Default = false,
+	Callback = function(inf)
+		if inf then
+    
+        _G.infinjump = true
 
+            local Player = game:GetService("Players").LocalPlayer
+            local Mouse = Player:GetMouse()
+            Mouse.KeyDown:connect(function(k)
+            if _G.infinjump then
+            if k:byte() == 50 then
+            Humanoid = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+            Humanoid:ChangeState("Jumping")
+            wait(0.1)
+            Humanoid:ChangeState("Seated")
+            end
+            end
+            end)
+ 
+        
+                else
+                if _G.infinjump == true then
+                _G.infinjump = false
+            else
+                 _G.infinjump = true
+            end
+              
+            
+		end  
+end
+})
+--walkspeed
 pTab:AddSlider({
 	Name = "Speed",
 	Min = 0,
@@ -522,7 +561,7 @@ pTab:AddSlider({
 		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = (speed)
 	end    
 })
-
+--jumppower
 pTab:AddSlider({
 	Name = "Jump Power",
 	Min = 0,
@@ -535,7 +574,75 @@ pTab:AddSlider({
 		game.Players.LocalPlayer.Character.Humanoid.JumpPower = (jump)
 	end    
 })
+--Tp to player
+ local Optionsd = {}
+for i,v in pairs(game:GetService("Players"):GetPlayers()) do 
+    if v ~= game.Players.LocalPlayer then 
+        table.insert(Optionsd,v.Name)
+    end
+end
+tTab:AddDropdown({
+	Name = "TP to",
+	Default = "player",
+	Options = Optionsd,
+	Callback = function(Value)
+		game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players[Value].Character.HumanoidRootPart.CFrame
+	end    
+})
+--Alway day
+tTab:AddToggle({
+	Name = "Always Day",
+	Default = false,
+	Callback = function(day)
+		if day then
+    
+        _G.day = true
+            while _G.day do
+                wait()
+            game.Lighting.TimeOfDay = "10:00:00:"
+            end
+            else
+                 _G.day = false
+        end
+end
+})
+--Lag reduce
+tTab:AddButton({
+	Name = "FPS Boost (This will make your graphic shit)",
+	Callback = function()
+        for _,v in pairs(workspace:GetDescendants()) do
+            if v.ClassName == "Part"
+            or v.ClassName == "SpawnLocation"
+            or v.ClassName == "WedgePart"
+            or v.ClassName == "Terrain"
+            or v.ClassName == "MeshPart" then
+            v.BrickColor = BrickColor.new("Black")
+            v.Material = "Plastic"
+            end
+            end
 
+            for _,v in pairs(workspace:GetDescendants()) do
+            if v.ClassName == "Decal"
+            or v.ClassName == "Texture" then
+            v:Destroy()
+            end
+            end
+  	end    
+})
+--discord
+
+tTab:AddButton({
+	Name = "Discord (Copy to clipboard)",
+	Callback = function()
+        setclipboard"https://discord.gg/WAhVwqbasE"
+        OrionLib:MakeNotification({
+	        Name = "Copied to clipboard",
+	        Content = "Paste on your browser to join our discord",
+	        Image = "rbxassetid://9915710872",
+	Time = 10
+})
+  	end    
+})
 
 
 OrionLib:Init()
